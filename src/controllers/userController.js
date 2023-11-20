@@ -116,7 +116,8 @@ async function processRegister(req, res, next) {
     };
     // send email data to the smtp server
     try {
-      await sendEmailWithNodemailer(emailData);
+      // FIXME: uncomment sendEmailWithNodemailer(emailData) function
+      // await sendEmailWithNodemailer(emailData);
     } catch (emailError) {
       return next(createError(500, "Failed to send verification email!!"));
     }

@@ -1,1 +1,3 @@
-console.log("test");
+const x = ".jpg";
+
+console.log(x.substring(1));
