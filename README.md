@@ -25,3 +25,5 @@
 21. PUT /api/users/:id ➡ update user by id
 22. delete image handler function
 23. POST /api/users/process-register ➡ create an user
+24. nodemailer package
+25. express validator package
