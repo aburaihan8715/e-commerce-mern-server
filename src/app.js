@@ -4,6 +4,7 @@ import morgan from "morgan";
 import createError from "http-errors";
 import { xss } from "express-xss-sanitizer";
 import { rateLimit } from "express-rate-limit";
+import bodyParser from "body-parser";
 const rateLimiter = rateLimit({
   windowMs: 1 * 60 * 1000, // 1 minutes
   limit: 5,
@@ -15,13 +16,17 @@ import { errorResponseHandler } from "./utils/responseHandler.js";
 
 // middleware
 app.use(morgan("dev"));
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+// parse application/json
+// app.use(bodyParser.json());
 app.use(express.json());
 app.use(xss());
 app.use(rateLimiter);
 
-// user routes
-app.use("/api/users", userRouter);
+// user routes related
 app.use("/api/seed", seedUserRouter);
+app.use("/api/users", userRouter);
 
 // test route
 app.get("/test", (req, res) => {

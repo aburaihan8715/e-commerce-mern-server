@@ -19,3 +19,9 @@
 15. make function for success or error response handler
 16. GET /api/users ➡ isAdmin ➡ getAllUsers
 17. GET /api/users/:id ➡ get single user by id
+18. make services for common api
+19. POST /api/users➡ create user
+20. DELETE /api/users/:id ➡ delete user by id
+21. PUT /api/users/:id ➡ update user by id
+22. delete image handler function
+23. POST /api/users/process-register ➡ create an user
