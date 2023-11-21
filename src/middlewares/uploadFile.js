@@ -1,10 +1,8 @@
 import multer from "multer";
-import path from "path";
-import { ALLOWED_FILE_TYPES, MAX_FILE_SIZE, UPLOAD_USER_IMG_DIR } from "../config/variables.js";
+import { ALLOWED_FILE_TYPES, MAX_FILE_SIZE } from "../config/variables.js";
 
-// const UPLOAD_DIR = process.env.UPLOAD_DIR || "public/images/users";
-// const MAX_FILE_SIZE = Number(process.env.MAX_FILE_SIZE) || 2097152; //1024 * 1024 * 2=2097152;
-// const ALLOWED_FILE_TYPES = process.env.ALLOWED_FILE_TYPES || ["jpg", "jpeg", "png"];
+/*=============start===========
+// image as string
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, UPLOAD_USER_IMG_DIR);
@@ -23,5 +21,26 @@ const fileFilter = (req, file, cb) => {
 };
 
 const upload = multer({ storage: storage, limits: { fileSize: MAX_FILE_SIZE }, fileFilter });
+
+export { upload };
+=============end===========*/
+
+// image as buffer
+const storage = multer.memoryStorage();
+
+const fileFilter = (req, file, cb) => {
+  if (!file.mimetype.startsWith("image/")) {
+    return cb(new Error("Only image files are allowed!"), false);
+  }
+  if (file.size > MAX_FILE_SIZE) {
+    return cb(new Error("File size exceeds the maximum limits!"), false);
+  }
+  if (!ALLOWED_FILE_TYPES.includes(file.mimetype)) {
+    return cb(new Error("File tye is not allowed!"), false);
+  }
+  cb(null, true);
+};
+
+const upload = multer({ storage: storage, fileFilter });
 
 export { upload };

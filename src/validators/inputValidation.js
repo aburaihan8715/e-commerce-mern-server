@@ -23,7 +23,18 @@ const validateUserRegistration = [
 
   body("phone").trim().notEmpty().withMessage("Phone is required!"),
 
-  body("image").optional().isString(),
+  // image as string
+  // body("image").optional().isString(),
+
+  // image as buffer
+  body("image")
+    .custom((value, { req }) => {
+      if (!req.file || !req.file.buffer) {
+        throw new Error("Image is required!");
+      }
+      return true;
+    })
+    .withMessage("Image is required!"),
 ];
 
 // login validation

@@ -90,6 +90,59 @@ async function deleteUserById(req, res, next) {
   }
 }
 
+// update user by id
+async function updateUserById(req, res, next) {
+  try {
+    const userId = req.params.id;
+    const options = { password: 0 };
+    // call find with id services
+    await findWithId(User, userId, options);
+
+    const updateOptions = { new: true, runValidators: true, context: "query" };
+    // call find with id services
+    let updates = {};
+    // name,email,password,phone,image,address
+    // if (req.body.name) {
+    //   updates.name = req.body.name;
+    // }
+    // if (req.body.password) {
+    //   updates.password = req.body.password;
+    // }
+    // if (req.body.phone) {
+    //   updates.phone = req.body.phone;
+    // }
+    // if (req.body.address) {
+    //   updates.address = req.body.address;
+    // }
+    // OR
+    for (let key in req.body) {
+      if (["name", "password", "phone", "address"].includes(key)) {
+        updates[key] = req.body[key];
+      } else if (["email"].includes(key)) {
+        throw new Error("Email can not be updated!");
+      }
+    }
+
+    const image = req.file;
+    if (image) {
+      if (image.size > 1024 * 1024 * 2) throw new Error("Image file is too large.It must be less than 2 MB!");
+      updates.image = image.buffer.toString("base64");
+    }
+
+    const updateUser = await User.findByIdAndUpdate(userId, updates, updateOptions).select("-password");
+
+    if (!updateUser) throw createError(404, "User does not exists with this ID!");
+
+    return successResponseHandler(res, {
+      statusCode: 201,
+      message: "user updated successfully!",
+      payload: updateUser,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
 // process register
 // FIXME:  I think it api should be api/users/process-token and function name should be processToken()
 async function processRegister(req, res, next) {
@@ -97,13 +150,22 @@ async function processRegister(req, res, next) {
     // 01 received data from body
     const { name, email, password, phone, address } = req.body;
 
+    const image = req.file;
+
+    if (!image) throw createError(400, "Image file is required!");
+    if (image.size > 1024 * 1024 * 2) throw new Error("Image file is too large.It must be less than 2 MB!");
+    // Note: new Error() / Error() / createError() are about same
+    // only in createError() we must use status code as first parameter
+
+    const imageBufferString = image.buffer.toString("base64");
+
     // 02 check user already exists or not
     const userExists = await User.exists({ email: email });
 
     if (userExists) throw createError(409, "User already exists with this email. Please login!!"); // 409 status code means conflict
 
     // 03 create token based on body data from user
-    const token = createJWT({ name, email, password, phone, address }, jwtSecretKey, "1h");
+    const token = createJWT({ name, email, password, phone, address, imageBufferString }, jwtSecretKey, "1h");
 
     // 04 prepare email data and send token to the client by link
     const emailData = {
@@ -165,7 +227,7 @@ async function activateUserAccount(req, res, next) {
   }
 }
 
-export { getUsers, getUserById, deleteUserById, processRegister, activateUserAccount };
+export { getUsers, getUserById, deleteUserById, processRegister, activateUserAccount, updateUserById };
 
 // TODO: For creating user we need to call 02 api from client site one is
 // POST➡api/users/process-token and second is

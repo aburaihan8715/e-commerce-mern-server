@@ -29,9 +29,17 @@ const userSchema = new mongoose.Schema(
       set: (v) => bcrypt.hashSync(v, bcrypt.genSaltSync(10)),
     },
 
+    // image as string
+    // image: {
+    //   type: String,
+    //   default: defaultImagePath,
+    // },
+
+    // image as buffer
     image: {
-      type: String,
-      default: defaultImagePath,
+      type: Buffer,
+      contentType: String,
+      required: [true, "Image is required!"],
     },
 
     address: {
