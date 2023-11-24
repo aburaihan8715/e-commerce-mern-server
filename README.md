@@ -27,3 +27,22 @@
 23. POST /api/users/process-register ➡ create an user
 24. nodemailer package
 25. express validator package
+26.
+27.
+28.
+29.
+30. <!-- above need to be update according videos -->
+31. should we store image as string or buffer?
+32. PUT / api/users/:id ➡ update single user by id authentication and authorization
+33. POST /api/auth/login ➡ user login
+34. POST /api/auth/logout ➡ user logout
+35. middlewares ➡ isLoggedIn, isLoggedOut, isAdmin
+36. input validation when signed in and refactoring
+37. PUT /api/users/banned-user ➡ banned user
+38. PUT /api/users/unbanned-user ➡ unbanned user
+39. PUT /api/users/update-password ➡ update the password
+40. POST /api/users/forget-password ➡ forget password
+41. PUT /api/users/reset-password ➡ reset password
+42. GET /api/auth/refresh ➡ refresh the token
+
+Note: N tutorials done

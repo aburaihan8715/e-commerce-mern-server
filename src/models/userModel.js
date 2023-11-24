@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "Password is required"],
       minLength: [6, "Password should be minimum 6 characters!"],
-      set: (v) => bcrypt.hashSync(v, bcrypt.genSaltSync(10)),
+      set: (v) => bcrypt.hashSync(v, bcrypt.genSaltSync(8)),
     },
 
     // image as string

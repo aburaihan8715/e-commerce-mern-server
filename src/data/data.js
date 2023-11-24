@@ -1,20 +1,28 @@
 const data = {
   users: [
     {
-      name: "Abu Raihan",
-      email: "aburaihan8715@gmail.com",
-      password: "123123",
+      name: "abul",
+      email: "abul@gmail.com",
+      password: "4Ra@123",
       phone: "01010101010",
       address: "Dhaka, Bangladesh",
-      image: "public/images/users/default-user.png",
+      image: "default.png",
     },
     {
-      name: "Jasmin",
-      email: "jasmin@gmail.com",
-      password: "123123",
+      name: "babul",
+      email: "babul@gmail.com",
+      password: "4Ra@123",
       phone: "02020202020",
       address: "Tangail, Bangladesh",
-      image: "public/images/users/default-user.png",
+      image: "default.png",
+    },
+    {
+      name: "abu raihan",
+      email: "aburaihan8715@gmail.com",
+      password: "4Ra@123",
+      phone: "030303030303",
+      address: "Bogura, Bangladesh",
+      image: "default.png",
     },
   ],
 };
