@@ -18,8 +18,8 @@ import {
   validationForgetPasswordInput,
   validationResetPasswordInput,
   validationUpdatePasswordInput,
-} from "../validators/inputValidation.js";
-import { runValidation } from "../validators/index.js";
+} from "../validators/authValidation.js";
+import { runValidation } from "../validators/runValidation.js";
 import { isAdmin, isLoggedIn, isLoggedOut } from "../middlewares/auth.js";
 const userRouter = express.Router();
 

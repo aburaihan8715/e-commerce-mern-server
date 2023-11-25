@@ -16,6 +16,7 @@ import { seedUserRouter } from "./routers/seedUserRouter.js";
 import { userRouter } from "./routers/userRouter.js";
 import { errorResponseHandler } from "./utils/responseHandler.js";
 import { authRouter } from "./routers/authRouter.js";
+import { categoryRouter } from "./routers/categoryRouter.js";
 
 // middleware
 app.use(morgan("dev"));
@@ -33,6 +34,8 @@ app.use("/api/seed", seedUserRouter);
 app.use("/api/users", userRouter);
 // auth routes
 app.use("/api/auth", authRouter);
+// category routes
+app.use("/api/categories", categoryRouter);
 
 // test route
 app.get("/test", (req, res) => {

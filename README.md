@@ -44,5 +44,23 @@
 40. POST /api/users/forget-password ➡ forget password
 41. PUT /api/users/reset-password ➡ reset password
 42. GET /api/auth/refresh ➡ refresh the token
+43. GET /api/auth/protected ➡ verify the token and give access to others routes
+44. refactoring
+45. modular code structure
+46. winston logger library
+47. category model and input validation
+48. category API - create category
+49. category API - read category
+    GET /api/categories
+    GET /api/categories/:slug
+50. category API - update category ➡ PUT: api/categories/:slug
+51. category API - delete category ➡ DELETE: api/categories/:slug
 
-Note: 45 tutorials done
+52. product API - product model
+53. product API - create seed route for products
+54. product API - create product
+55. product API - read product
+56. product API - update product
+57. product API - delete product
+
+Note: 51 tutorials done
