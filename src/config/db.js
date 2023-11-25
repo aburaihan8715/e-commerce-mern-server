@@ -1,16 +1,16 @@
 import mongoose from "mongoose";
-import { mongodbURL } from "../secret.js";
+import { mongodbURL } from "./secret.js";
+import { logger } from "../controllers/loggerController.js";
 
 const connectDb = async (options = {}) => {
   try {
     await mongoose.connect(mongodbURL, options);
-    console.log("Db is connected!");
-    mongoose.connection.on("error", (err) => {
-      console.error(err);
+    logger.log("info", "Db is connected!");
+    mongoose.connection.on("error", (error) => {
+      logger.log("error", "Db connection error", error);
     });
   } catch (error) {
-    console.log(error.message);
-    console.log("Connection failed!!");
+    logger.log("error", "Db connection failed", error);
     process.exit(1);
   }
 };

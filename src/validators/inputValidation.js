@@ -51,4 +51,48 @@ const validationLoginInput = [
     .withMessage("Password should be at least one digit,one lowercase letter, one uppercase letter,one special character."),
 ];
 
-export { validateUserRegistration, validationLoginInput };
+// update password validation
+const validationUpdatePasswordInput = [
+  body("oldPassword")
+    .trim()
+    .notEmpty()
+    .withMessage("Old Password is required. Enter your old password!")
+    .isLength({ min: 6 })
+    .withMessage("Old Password should be at least 6 characters!")
+    .matches(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{6,}$/)
+    .withMessage("Password should be at least one digit,one lowercase letter, one uppercase letter,one special character."),
+
+  body("newPassword")
+    .trim()
+    .notEmpty()
+    .withMessage("New Password is required. Enter your new password!")
+    .isLength({ min: 6 })
+    .withMessage("New Password should be at least 6 characters!")
+    .matches(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{6,}$/)
+    .withMessage("Password should be at least one digit,one lowercase letter, one uppercase letter,one special character."),
+
+  body("confirmPassword").custom((value, { req }) => {
+    if (value !== req.body.newPassword) throw new Error("Password did not match!");
+    return true;
+  }),
+];
+
+// forget password validation
+const validationForgetPasswordInput = [
+  body("email").trim().notEmpty().withMessage("Email is required!").isEmail().withMessage("Invalid email address!"),
+];
+
+// forget password validation
+const validationResetPasswordInput = [
+  body("token").trim().notEmpty().withMessage("Token is missing!"),
+  body("password")
+    .trim()
+    .notEmpty()
+    .withMessage("Password is required. Enter your password!")
+    .isLength({ min: 6 })
+    .withMessage("Password should be at least 6 characters!")
+    .matches(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{6,}$/)
+    .withMessage("Password should be at least one digit,one lowercase letter, one uppercase letter,one special character."),
+];
+
+export { validateUserRegistration, validationLoginInput, validationUpdatePasswordInput, validationForgetPasswordInput, validationResetPasswordInput };

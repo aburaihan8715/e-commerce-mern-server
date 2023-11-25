@@ -1,6 +1,6 @@
 import createError from "http-errors";
 import jwt from "jsonwebtoken";
-import { jwtSecretKeyForAccessToken } from "../secret.js";
+import { jwtSecretKeyForAccessToken } from "../config/secret.js";
 
 // check login or not
 async function isLoggedIn(req, res, next) {

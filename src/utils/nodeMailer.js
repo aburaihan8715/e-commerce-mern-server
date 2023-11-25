@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { smtpPass, smtpUser } from "../secret.js";
+import { smtpPass, smtpUser } from "../config/secret.js";
 
 // setup transporter
 const transporter = nodemailer.createTransport({

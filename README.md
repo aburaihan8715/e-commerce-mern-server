@@ -45,4 +45,4 @@
 41. PUT /api/users/reset-password ➡ reset password
 42. GET /api/auth/refresh ➡ refresh the token
 
-Note: N tutorials done
+Note: 45 tutorials done

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
-import { defaultImagePath } from "../secret.js";
+import { defaultImagePath } from "../config/secret.js";
 
 const userSchema = new mongoose.Schema(
   {

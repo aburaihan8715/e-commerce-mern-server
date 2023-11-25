@@ -11,6 +11,8 @@ const jwtSecretKeyForAccessToken = process.env.JWT_SECRET_KEY_FOR_ACCESS_TOKEN |
 
 const jwtSecretKeyForRefreshToken = process.env.JWT_SECRET_KEY_FOR_REFRESH_TOKEN || "fowiwerorfuiqwriiw4549fkwrkgo;erwkfwr@#5";
 
+const jwtSecretKeyForResetPassword = process.env.JWT_SECRET_KEY_FOR_RESET_PASSWORD || "fowfowaoiwrds54d4wd54fdfs54d545r4f5rw4fg";
+
 const smtpUser = process.env.SMTP_USER || "";
 
 const smtpPass = process.env.SMTP_PASS || "";
@@ -27,4 +29,5 @@ export {
   clientUrl,
   jwtSecretKeyForAccessToken,
   jwtSecretKeyForRefreshToken,
+  jwtSecretKeyForResetPassword,
 };
