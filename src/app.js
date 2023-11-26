@@ -12,11 +12,13 @@ const rateLimiter = rateLimit({
   limit: 5,
   message: "Too many requests, please try again later.",
 });
-import { seedUserRouter } from "./routers/seedUserRouter.js";
+
 import { userRouter } from "./routers/userRouter.js";
 import { errorResponseHandler } from "./utils/responseHandler.js";
 import { authRouter } from "./routers/authRouter.js";
 import { categoryRouter } from "./routers/categoryRouter.js";
+import { seedRouter } from "./routers/seedRouter.js";
+import { productRouter } from "./routers/productRouter.js";
 
 // middleware
 app.use(morgan("dev"));
@@ -29,13 +31,16 @@ app.use(express.json());
 app.use(xss());
 app.use(rateLimiter);
 
+// seed routes
+app.use("/api/seed", seedRouter);
 // user routes
-app.use("/api/seed", seedUserRouter);
 app.use("/api/users", userRouter);
 // auth routes
 app.use("/api/auth", authRouter);
 // category routes
 app.use("/api/categories", categoryRouter);
+// product routes
+app.use("/api/products", productRouter);
 
 // test route
 app.get("/test", (req, res) => {

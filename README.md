@@ -55,12 +55,13 @@
     GET /api/categories/:slug
 50. category API - update category ➡ PUT: api/categories/:slug
 51. category API - delete category ➡ DELETE: api/categories/:slug
-
 52. product API - product model
 53. product API - create seed route for products
-54. product API - create product
+54. product API - create product ➡ POST: api/products
 55. product API - read product
+    GET /api/products
+    GET /api/products/:slug
 56. product API - update product
 57. product API - delete product
 
-Note: 51 tutorials done
+Note: 53 tutorials done
