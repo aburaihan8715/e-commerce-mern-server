@@ -72,10 +72,7 @@ async function updateCategoryHandler(req, res, next) {
 async function deleteCategoryHandler(req, res, next) {
   try {
     const { slug } = req.params;
-
-    const result = await deleteCategory(slug);
-    if (!result) throw createError(404, "No category found for delete!");
-
+    await deleteCategory(slug);
     return successResponseHandler(res, {
       statusCode: 201,
       message: `Category deleted successfully!`,

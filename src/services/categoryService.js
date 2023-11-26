@@ -34,6 +34,7 @@ async function updateCategory(name, slug) {
 // delete category service
 async function deleteCategory(slug) {
   const result = await Category.findOneAndDelete({ slug });
+  if (!result) throw createError(404, "No category found for delete!");
   return result;
 }
 

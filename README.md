@@ -61,7 +61,7 @@
 55. product API - read product
     GET /api/products
     GET /api/products/:slug
-56. product API - update product
-57. product API - delete product
+56. product API - delete product
+57. product API - update product
 
 Note: 53 tutorials done

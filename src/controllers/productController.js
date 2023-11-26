@@ -1,7 +1,6 @@
 import createError from "http-errors";
 import { successResponseHandler } from "../utils/responseHandler.js";
-import { createProduct, getProducts } from "../services/productService.js";
-import Product from "../models/productModel.js";
+import { createProduct, deleteProductBySlug, getProductBySlug, getProducts } from "../services/productService.js";
 
 // create product controller/handler
 async function createProductHandler(req, res, next) {
@@ -40,7 +39,7 @@ async function createProductHandler(req, res, next) {
   }
 }
 
-// get product controller/handler
+// get products controller/handler
 async function getProductsHandler(req, res, next) {
   try {
     const page = parseInt(req.query.page) || 1;
@@ -69,4 +68,34 @@ async function getProductsHandler(req, res, next) {
   }
 }
 
-export { createProductHandler, getProductsHandler };
+// get product by slug  controller/handler
+async function getProductBySlugHandler(req, res, next) {
+  try {
+    const { slug } = req.params;
+    const product = await getProductBySlug(slug);
+    // success response
+    return successResponseHandler(res, {
+      statusCode: 200,
+      message: `Product returned successfully!`,
+      payload: { product },
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+// get product by slug  controller/handler
+async function deleteProductBySlugHandler(req, res, next) {
+  try {
+    const { slug } = req.params;
+    await deleteProductBySlug(slug);
+    // success response
+    return successResponseHandler(res, {
+      statusCode: 200,
+      message: `Product deleted successfully!`,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+export { createProductHandler, getProductsHandler, getProductBySlugHandler, deleteProductBySlugHandler };
