@@ -63,5 +63,5 @@
     GET /api/products/:slug
 56. product API - delete product
 57. product API - update product
-
-Note: 53 tutorials done
+58. product API - search product
+59. product API - filter product

@@ -26,8 +26,8 @@ async function createProduct(productData) {
 }
 
 // get products service
-async function getProducts(page = 1, limit = 4) {
-  const products = await Product.find({})
+async function getProducts(page = 1, limit = 4, filter = {}) {
+  const products = await Product.find(filter)
     .populate("category")
     .skip((page - 1) * limit)
     .limit(limit)
@@ -35,7 +35,7 @@ async function getProducts(page = 1, limit = 4) {
   // FIXME: Note: "category" means category id here, so I think "categoryId" is better option
   if (!products) throw createError(404, "No products found!");
 
-  const count = await Product.find({}).countDocuments();
+  const count = await Product.find(filter).countDocuments();
 
   return { products, count, totalPages: Math.ceil(count / limit), currentPage: page };
 }
@@ -54,4 +54,20 @@ async function deleteProductBySlug(slug) {
   return result;
 }
 
-export { createProduct, getProducts, getProductBySlug, deleteProductBySlug };
+// update product service
+async function updateProductBySlug(slug, updates, image, updateOptions) {
+  if (image) {
+    if (image.size > 1024 * 1024 * 2) throw new Error("Image file is too large.It must be less than 2 MB!");
+    updates.image = image.buffer.toString("base64");
+  }
+
+  if (updates.name) updates.slug = slugify(updates.name);
+
+  const updateProduct = await Product.findOneAndUpdate({ slug }, updates, updateOptions);
+
+  if (!updateProduct) throw createError(404, "Product does not exists with this slug!");
+
+  return updateProduct;
+}
+
+export { createProduct, getProducts, getProductBySlug, deleteProductBySlug, updateProductBySlug };

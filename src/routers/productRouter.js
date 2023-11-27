@@ -1,7 +1,13 @@
 import express from "express";
 
 import { upload } from "../middlewares/uploadFile.js";
-import { createProductHandler, getProductsHandler, getProductBySlugHandler, deleteProductBySlugHandler } from "../controllers/productController.js";
+import {
+  createProductHandler,
+  getProductsHandler,
+  getProductBySlugHandler,
+  deleteProductBySlugHandler,
+  updateProductBySlugHandler,
+} from "../controllers/productController.js";
 import { productValidation } from "../validators/productValidation.js";
 import { runValidation } from "../validators/runValidation.js";
 import { isAdmin, isLoggedIn } from "../middlewares/auth.js";
@@ -20,6 +26,9 @@ productRouter.get("/", getProductsHandler);
 productRouter.get("/:slug", getProductBySlugHandler);
 
 // DELETE ➡ api/products/:slug - delete a product
-productRouter.delete("/:slug", deleteProductBySlugHandler);
+productRouter.delete("/:slug", isLoggedIn, isAdmin, deleteProductBySlugHandler);
+
+// PUT ➡ api/products/:slug - update a product
+productRouter.put("/:slug", upload.single("image"), isLoggedIn, isAdmin, updateProductBySlugHandler);
 
 export { productRouter };

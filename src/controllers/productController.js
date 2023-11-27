@@ -1,6 +1,6 @@
 import createError from "http-errors";
 import { successResponseHandler } from "../utils/responseHandler.js";
-import { createProduct, deleteProductBySlug, getProductBySlug, getProducts } from "../services/productService.js";
+import { createProduct, deleteProductBySlug, getProductBySlug, getProducts, updateProductBySlug } from "../services/productService.js";
 
 // create product controller/handler
 async function createProductHandler(req, res, next) {
@@ -42,10 +42,20 @@ async function createProductHandler(req, res, next) {
 // get products controller/handler
 async function getProductsHandler(req, res, next) {
   try {
+    const search = req.query.search || "";
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 4;
 
-    const productsData = await getProducts(page, limit);
+    const searchRegexp = new RegExp(`.*${search}.*`, "i");
+
+    const filter = {
+      $or: [
+        { name: { $regex: searchRegexp } },
+        // { email: { $regex: searchRegexp } },
+      ],
+    };
+
+    const productsData = await getProducts(page, limit, filter);
 
     // success response
     return successResponseHandler(res, {
@@ -98,4 +108,37 @@ async function deleteProductBySlugHandler(req, res, next) {
     next(error);
   }
 }
-export { createProductHandler, getProductsHandler, getProductBySlugHandler, deleteProductBySlugHandler };
+
+// update product by slug
+async function updateProductBySlugHandler(req, res, next) {
+  try {
+    const { slug } = req.params;
+    let updates = {};
+    const updateOptions = { new: true, runValidators: true, context: "query" };
+
+    const allowedFields = ["name", "description", "price", "sold", "quantity", "shipping"];
+
+    for (const key in req.body) {
+      if (allowedFields.includes(key)) {
+        updates[key] = req.body[key];
+      }
+      // else if (key === "email") {
+      //   throw createError(400, "Email can not be updated!");
+      // }
+    }
+
+    const image = req.file;
+
+    const updatedProduct = await updateProductBySlug(slug, updates, image, updateOptions);
+    // success response
+    return successResponseHandler(res, {
+      statusCode: 201,
+      message: "Product updated successfully!",
+      payload: updatedProduct,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export { createProductHandler, getProductsHandler, getProductBySlugHandler, deleteProductBySlugHandler, updateProductBySlugHandler };

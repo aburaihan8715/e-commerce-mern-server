@@ -4,8 +4,6 @@ import { successResponseHandler } from "../utils/responseHandler.js";
 import { findWithId } from "../services/findWithId.js";
 import { createJWT } from "../utils/createJWT.js";
 import { clientUrl, jwtSecretKeyForProcessRegister, jwtSecretKeyForResetPassword } from "../config/secret.js";
-import { sendEmailWithNodemailer } from "../utils/nodeMailer.js";
-import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { checkUserExists } from "../utils/checkUserExists.js";
 import { sendEmail } from "../utils/sendEmail.js";
