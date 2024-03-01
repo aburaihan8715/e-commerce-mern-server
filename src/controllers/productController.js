@@ -63,7 +63,7 @@ async function getProductsHandler(req, res, next) {
       message: `Products returned successfully!`,
       payload: {
         products: productsData.products,
-        // FIXME: see auth controller for details pagination
+        // FIXME: see user controller for details pagination
         pagination: {
           totalPages: productsData.totalPages,
           currentPage: productsData.currentPage,

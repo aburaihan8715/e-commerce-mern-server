@@ -11,6 +11,7 @@ const userSchema = new Schema(
       minLength: [3, "Name should be minimum 3 characters!"],
       maxLength: [30, "Name should be maximum 30 characters!"],
     },
+
     email: {
       type: String,
       required: [true, "Email is required"],
@@ -52,11 +53,13 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Phone no is required"],
     },
-    isAdmin: {
+
+    isBanned: {
       type: Boolean,
       default: false,
     },
-    isBanned: {
+
+    isAdmin: {
       type: Boolean,
       default: false,
     },
