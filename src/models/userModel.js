@@ -31,27 +31,22 @@ const userSchema = new Schema(
     },
 
     // image as string
-    // image: {
-    //   type: String,
-    //   default: defaultImagePath,
-    // },
+    image: {
+      type: String,
+    },
 
     // image as buffer
-    image: {
-      type: Buffer,
-      contentType: String,
-      required: [true, "Image is required!"],
-    },
+    // image: {
+    //   type: Buffer,
+    //   contentType: String,
+    // },
 
     address: {
       type: String,
-      minLength: [3, "Address should be minimum 3 characters!"],
-      required: [true, "Address is required"],
     },
 
     phone: {
       type: String,
-      required: [true, "Phone no is required"],
     },
 
     isBanned: {

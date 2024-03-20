@@ -26,9 +26,9 @@ export { upload };
 =============end===========*/
 
 // image as buffer
-const storage = multer.memoryStorage();
+const multerStorage = multer.memoryStorage();
 
-const fileFilter = (req, file, cb) => {
+const multerFilter = (req, file, cb) => {
   if (!file.mimetype.startsWith("image/")) {
     return cb(new Error("Only image files are allowed!"), false);
   }
@@ -41,6 +41,6 @@ const fileFilter = (req, file, cb) => {
   cb(null, true);
 };
 
-const upload = multer({ storage: storage, fileFilter });
+const upload = multer({ storage: multerStorage, fileFilter: multerFilter });
 
 export { upload };

@@ -24,7 +24,9 @@ import { isAdmin, isLoggedIn, isLoggedOut } from "../middlewares/auth.js";
 const userRouter = express.Router();
 
 // api/users
-userRouter.post("/process-register", upload.single("image"), isLoggedOut, validateUserRegistration, runValidation, processRegisterHandler);
+
+userRouter.post("/process-register", upload.single("image"), processRegisterHandler);
+// userRouter.post("/process-register", upload.single("image"), isLoggedOut, validateUserRegistration, runValidation, processRegisterHandler);
 
 userRouter.post("/activate", isLoggedOut, activateUserAccountHandler);
 

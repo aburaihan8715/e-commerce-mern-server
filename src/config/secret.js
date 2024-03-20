@@ -1,27 +1,25 @@
 import "dotenv/config";
+
 const serverPort = process.env.SERVER_PORT || 5001;
+const mongodbAtlasUri = process.env.MONGODB_ATLAS_URI;
+const mongodbLocalUri = process.env.MONGODB_LOCAL_URI;
+const defaultImagePath = process.env.DEFAULT_USER_IMAGE_PATH;
 
-const mongodbURL = process.env.ATLAS_URI || "mongodb://localhost:27017/eCommerceMernDb";
+const jwtSecretKeyForProcessRegister = process.env.JWT_SECRET_KEY_FOR_PROCESS_REGISTER;
 
-const defaultImagePath = process.env.DEFAULT_USER_IMAGE_PATH || "public/images/users/default-user.png";
+const jwtSecretKeyForAccessToken = process.env.JWT_SECRET_KEY_FOR_ACCESS_TOKEN;
+const jwtSecretKeyForRefreshToken = process.env.JWT_SECRET_KEY_FOR_REFRESH_TOKEN;
+const jwtSecretKeyForResetPassword = process.env.JWT_SECRET_KEY_FOR_RESET_PASSWORD;
+const smtpUser = process.env.SMTP_USER;
+const smtpPass = process.env.SMTP_PASS;
+const clientUrl = process.env.CLIENT_URL;
 
-const jwtSecretKeyForProcessRegister = process.env.JWT_SECRET_KEY_FOR_PROCESS_REGISTER || "fowiwerorfuiqwriiw4549fkwrkgo;erwkfwr@#5";
-
-const jwtSecretKeyForAccessToken = process.env.JWT_SECRET_KEY_FOR_ACCESS_TOKEN || "fowiwerorfuiqwriiw4549fkwrkgo;erwkfwr@#5";
-
-const jwtSecretKeyForRefreshToken = process.env.JWT_SECRET_KEY_FOR_REFRESH_TOKEN || "fowiwerorfuiqwriiw4549fkwrkgo;erwkfwr@#5";
-
-const jwtSecretKeyForResetPassword = process.env.JWT_SECRET_KEY_FOR_RESET_PASSWORD || "fowfowaoiwrds54d4wd54fdfs54d545r4f5rw4fg";
-
-const smtpUser = process.env.SMTP_USER || "";
-
-const smtpPass = process.env.SMTP_PASS || "";
-
-const clientUrl = process.env.CLIENT_URL || "";
+const cloudinaryCloudName = process.env.CLOUDINARY_CLOUD_NAME;
+const cloudinaryApiKey = process.env.CLOUDINARY_API_KEY;
+const cloudinaryApiSecret = process.env.CLOUDINARY_API_SECRET;
 
 export {
   serverPort,
-  mongodbURL,
   defaultImagePath,
   jwtSecretKeyForProcessRegister,
   smtpUser,
@@ -30,4 +28,9 @@ export {
   jwtSecretKeyForAccessToken,
   jwtSecretKeyForRefreshToken,
   jwtSecretKeyForResetPassword,
+  mongodbAtlasUri,
+  mongodbLocalUri,
+  cloudinaryCloudName,
+  cloudinaryApiKey,
+  cloudinaryApiSecret,
 };

@@ -1,4 +1,5 @@
-import { data } from "../data/data.js";
+import { productsData } from "../dev-data/data/products.js";
+import { usersData } from "../dev-data/data/users.js";
 import Product from "../models/productModel.js";
 import User from "../models/userModel.js";
 
@@ -6,7 +7,7 @@ import User from "../models/userModel.js";
 async function seedUsers(req, res, next) {
   try {
     await User.deleteMany({});
-    const users = await User.insertMany(data.users);
+    const users = await User.insertMany(usersData);
     res.status(200).send({
       message: "Users returned!",
       users,
@@ -22,7 +23,7 @@ async function seedProducts(req, res, next) {
     // 01. Delete all products from the collection
     await Product.deleteMany({});
     // 02. Insert products in the collection
-    const products = await Product.insertMany(data.products);
+    const products = await Product.insertMany(productsData);
     // 03. success response
     res.status(200).send({
       message: "Products returned!",
