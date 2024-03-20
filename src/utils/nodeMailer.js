@@ -1,9 +1,9 @@
-import nodemailer from "nodemailer";
-import { smtpPass, smtpUser } from "../config/secret.js";
+import nodemailer from 'nodemailer';
+import { smtpPass, smtpUser } from '../config/secret.js';
 
 // setup transporter
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
+  host: 'smtp.gmail.com',
   port: 465,
   secure: true,
   auth: {
@@ -22,9 +22,9 @@ const sendEmailWithNodemailer = async (emailData) => {
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log("Message sent: %s", info.messageId);
+    console.log('Message sent: %s', info.messageId);
   } catch (error) {
-    console.error("Error occur while sending email:", error);
+    console.error('Error occur while sending email:', error);
     throw error;
   }
 };

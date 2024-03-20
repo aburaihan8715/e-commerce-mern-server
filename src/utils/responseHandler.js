@@ -1,17 +1,23 @@
 // error response handler
-const errorResponseHandler = (res, { statusCode = 500, message = "Internal server error" }) => {
+const errorResponseHandler = (
+  res,
+  { statusCode = 500, message = 'Internal server error' }
+) => {
   return res.status(statusCode).json({
-    success: false,
+    status: 'error',
     message: message,
   });
 };
 
 // success response handler
-const successResponseHandler = (res, { statusCode = 200, message = "Success!!", payload = {} }) => {
+const successResponseHandler = (
+  res,
+  { statusCode = 200, message = 'Success!!', data = null }
+) => {
   return res.status(statusCode).json({
-    success: true,
+    status: 'success',
     message: message,
-    payload,
+    data,
   });
 };
 

@@ -1,18 +1,18 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const categorySchema = new Schema(
   {
     name: {
       type: String,
-      required: [true, "Category is required"],
+      required: [true, 'Category is required'],
       trim: true,
       unique: true,
-      minLength: [3, "Category should be minimum 3 characters!"],
+      minLength: [3, 'Category should be minimum 3 characters!'],
     },
     slug: {
       type: String,
-      required: [true, "Category is required"],
+      required: [true, 'Category is required'],
       lowercase: true,
       unique: true,
     },
@@ -20,6 +20,7 @@ const categorySchema = new Schema(
   { timestamps: true }
 );
 
-const Category = mongoose.models.Category || mongoose.model("Category", categorySchema);
+const Category =
+  mongoose.models.Category || mongoose.model('Category', categorySchema);
 
 export default Category;

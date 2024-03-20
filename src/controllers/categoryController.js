@@ -1,6 +1,12 @@
-import createError from "http-errors";
-import { successResponseHandler } from "../utils/responseHandler.js";
-import { createCategory, deleteCategory, getCategories, getCategory, updateCategory } from "../services/categoryService.js";
+import createError from 'http-errors';
+import { successResponseHandler } from '../utils/responseHandler.js';
+import {
+  createCategory,
+  deleteCategory,
+  getCategories,
+  getCategory,
+  updateCategory,
+} from '../services/categoryService.js';
 
 // create category controller/handler
 async function createCategoryHandler(req, res, next) {
@@ -37,7 +43,7 @@ async function getCategoryHandler(req, res, next) {
     const { slug } = req.params;
     // get category
     const category = await getCategory(slug);
-    if (!category) throw createError(404, "Category not found with this slug!");
+    if (!category) throw createError(404, 'Category not found with this slug!');
 
     return successResponseHandler(res, {
       statusCode: 201,
@@ -56,7 +62,8 @@ async function updateCategoryHandler(req, res, next) {
     const { slug } = req.params;
     // update category
     const updatedCategory = await updateCategory(name, slug);
-    if (!updatedCategory) throw createError(404, "Category not found with this slug!");
+    if (!updatedCategory)
+      throw createError(404, 'Category not found with this slug!');
 
     return successResponseHandler(res, {
       statusCode: 201,
@@ -82,4 +89,10 @@ async function deleteCategoryHandler(req, res, next) {
   }
 }
 
-export { createCategoryHandler, getCategoriesHandler, getCategoryHandler, updateCategoryHandler, deleteCategoryHandler };
+export {
+  createCategoryHandler,
+  getCategoriesHandler,
+  getCategoryHandler,
+  updateCategoryHandler,
+  deleteCategoryHandler,
+};

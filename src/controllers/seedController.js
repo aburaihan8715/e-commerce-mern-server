@@ -1,7 +1,7 @@
-import { productsData } from "../dev-data/data/products.js";
-import { usersData } from "../dev-data/data/users.js";
-import Product from "../models/productModel.js";
-import User from "../models/userModel.js";
+import { productsData } from '../dev-data/data/products.js';
+import { usersData } from '../dev-data/data/users.js';
+import Product from '../models/productModel.js';
+import User from '../models/userModel.js';
 
 // seed users
 async function seedUsers(req, res, next) {
@@ -9,7 +9,8 @@ async function seedUsers(req, res, next) {
     await User.deleteMany({});
     const users = await User.insertMany(usersData);
     res.status(200).send({
-      message: "Users returned!",
+      status: 'success',
+      result: users.length,
       users,
     });
   } catch (error) {
@@ -26,7 +27,8 @@ async function seedProducts(req, res, next) {
     const products = await Product.insertMany(productsData);
     // 03. success response
     res.status(200).send({
-      message: "Products returned!",
+      status: 'success',
+      result: products.length,
       products,
     });
   } catch (error) {

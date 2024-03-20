@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 // name,slug,description,price,quantity,sold,shipping,image, category
@@ -6,49 +6,51 @@ const productSchema = new Schema(
   {
     name: {
       type: String,
-      required: [true, "Product name is required"],
+      required: [true, 'Product name is required'],
       trim: true,
-      minLength: [3, "Product name should be minimum 3 characters!"],
-      maxLength: [150, "Product name should be maximum 150 characters!"],
+      minLength: [3, 'Product name should be minimum 3 characters!'],
+      maxLength: [150, 'Product name should be maximum 150 characters!'],
     },
 
     slug: {
       type: String,
-      required: [true, "Product name is required"],
+      required: [true, 'Product name is required'],
       lowercase: true,
       unique: true,
     },
 
     description: {
       type: String,
-      required: [true, "Product description is required"],
+      required: [true, 'Product description is required'],
       trim: true,
-      minLength: [3, "Product description should be minimum 3 characters!"],
+      minLength: [3, 'Product description should be minimum 3 characters!'],
     },
 
     price: {
       type: Number,
-      required: [true, "Product price is required"],
+      required: [true, 'Product price is required'],
       trim: true,
       validate: {
         validator: (v) => v > 0,
-        message: (props) => `${props.value} is not a valid price. Price must be greater than 0`,
+        message: (props) =>
+          `${props.value} is not a valid price. Price must be greater than 0`,
       },
     },
 
     quantity: {
       type: Number,
-      required: [true, "Product quantity is required"],
+      required: [true, 'Product quantity is required'],
       trim: true,
       validate: {
         validator: (v) => v > 0,
-        message: (props) => `${props.value} is not a valid quantity. Quantity must be greater than 0`,
+        message: (props) =>
+          `${props.value} is not a valid quantity. Quantity must be greater than 0`,
       },
     },
 
     sold: {
       type: Number,
-      required: [true, "sold quantity is required"],
+      required: [true, 'sold quantity is required'],
       trim: true,
       default: 0,
     },
@@ -61,12 +63,12 @@ const productSchema = new Schema(
     image: {
       type: Buffer,
       contentType: String,
-      required: [true, "Product image is required!"],
+      required: [true, 'Product image is required!'],
     },
 
     category: {
       type: Schema.Types.ObjectId,
-      ref: "Category",
+      ref: 'Category',
       required: true,
     },
   },
@@ -74,6 +76,7 @@ const productSchema = new Schema(
   { timestamps: true }
 );
 
-const Product = mongoose.models.Product || mongoose.model("Product", productSchema);
+const Product =
+  mongoose.models.Product || mongoose.model('Product', productSchema);
 
 export default Product;

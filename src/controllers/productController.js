@@ -1,6 +1,12 @@
-import createError from "http-errors";
-import { successResponseHandler } from "../utils/responseHandler.js";
-import { createProduct, deleteProductBySlug, getProductBySlug, getProducts, updateProductBySlug } from "../services/productService.js";
+import createError from 'http-errors';
+import { successResponseHandler } from '../utils/responseHandler.js';
+import {
+  createProduct,
+  deleteProductBySlug,
+  getProductBySlug,
+  getProducts,
+  updateProductBySlug,
+} from '../services/productService.js';
 
 // create product controller/handler
 async function createProductHandler(req, res, next) {
@@ -10,11 +16,12 @@ async function createProductHandler(req, res, next) {
     // received image file from request file
     const image = req.file;
 
-    if (!image) throw createError(400, "Image file is required!");
-    if (image.size > 1024 * 1024 * 2) throw new Error("Image file is too large.It must be less than 2 MB!");
+    if (!image) throw createError(400, 'Image file is required!');
+    if (image.size > 1024 * 1024 * 2)
+      throw new Error('Image file is too large.It must be less than 2 MB!');
     // Note: new Error() / Error() / createError() are about same
     // only in createError() we must use status code as first parameter
-    const imageBufferString = image.buffer.toString("base64");
+    const imageBufferString = image.buffer.toString('base64');
 
     const productData = {
       name,
@@ -42,11 +49,11 @@ async function createProductHandler(req, res, next) {
 // get products controller/handler
 async function getProductsHandler(req, res, next) {
   try {
-    const search = req.query.search || "";
+    const search = req.query.search || '';
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 4;
 
-    const searchRegexp = new RegExp(`.*${search}.*`, "i");
+    const searchRegexp = new RegExp(`.*${search}.*`, 'i');
 
     const filter = {
       $or: [
@@ -114,9 +121,16 @@ async function updateProductBySlugHandler(req, res, next) {
   try {
     const { slug } = req.params;
     let updates = {};
-    const updateOptions = { new: true, runValidators: true, context: "query" };
+    const updateOptions = { new: true, runValidators: true, context: 'query' };
 
-    const allowedFields = ["name", "description", "price", "sold", "quantity", "shipping"];
+    const allowedFields = [
+      'name',
+      'description',
+      'price',
+      'sold',
+      'quantity',
+      'shipping',
+    ];
 
     for (const key in req.body) {
       if (allowedFields.includes(key)) {
@@ -129,11 +143,16 @@ async function updateProductBySlugHandler(req, res, next) {
 
     const image = req.file;
 
-    const updatedProduct = await updateProductBySlug(slug, updates, image, updateOptions);
+    const updatedProduct = await updateProductBySlug(
+      slug,
+      updates,
+      image,
+      updateOptions
+    );
     // success response
     return successResponseHandler(res, {
       statusCode: 201,
-      message: "Product updated successfully!",
+      message: 'Product updated successfully!',
       payload: updatedProduct,
     });
   } catch (error) {
@@ -141,4 +160,10 @@ async function updateProductBySlugHandler(req, res, next) {
   }
 }
 
-export { createProductHandler, getProductsHandler, getProductBySlugHandler, deleteProductBySlugHandler, updateProductBySlugHandler };
+export {
+  createProductHandler,
+  getProductsHandler,
+  getProductBySlugHandler,
+  deleteProductBySlugHandler,
+  updateProductBySlugHandler,
+};
