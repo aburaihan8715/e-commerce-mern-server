@@ -1,6 +1,6 @@
 import createError from 'http-errors';
 import User from '../models/userModel.js';
-import { successResponseHandler } from '../utils/responseHandler.js';
+import { successResponse } from '../utils/responseHandler.js';
 import { findWithId } from '../services/findWithId.js';
 import { createJWT } from '../utils/createJWT.js';
 import {
@@ -13,7 +13,7 @@ import { checkUserExists } from '../utils/checkUserExists.js';
 import { sendEmail } from '../utils/sendEmail.js';
 
 // process register
-async function processRegisterHandler(req, res, next) {
+async function processRegister(req, res, next) {
   try {
     // 01 received data from body
     const { name, email, password, phone, address } = req.body;
@@ -64,7 +64,7 @@ async function processRegisterHandler(req, res, next) {
     sendEmail(emailData);
 
     // send token to the client also by response
-    return successResponseHandler(res, {
+    return successResponse(res, {
       statusCode: 201,
       message: `Please go to your ${email} to complete registration process!`,
     });
@@ -74,7 +74,7 @@ async function processRegisterHandler(req, res, next) {
 }
 
 // activate user account
-async function activateUserAccountHandler(req, res, next) {
+async function activateUserAccount(req, res, next) {
   try {
     const token = req.body.token;
     if (!token) throw createError(404, 'Token not found!!');
@@ -95,7 +95,7 @@ async function activateUserAccountHandler(req, res, next) {
       // create user based on verified data
       await User.create(decoded);
 
-      return successResponseHandler(res, {
+      return successResponse(res, {
         statusCode: 201,
         message: `User registered successfully!!`,
       });
@@ -111,8 +111,8 @@ async function activateUserAccountHandler(req, res, next) {
   }
 }
 
-// get all users
-async function getUsersHandler(req, res, next) {
+// GET ALL USERS
+async function getAllUsers(req, res, next) {
   try {
     const search = req.query.search || '';
     const page = Number(req.query.page) || 1;
@@ -140,7 +140,7 @@ async function getUsersHandler(req, res, next) {
     if (!users || users.length === 0)
       throw createError(404, 'User not found!!');
 
-    return successResponseHandler(res, {
+    return successResponse(res, {
       statusCode: 200,
       message: 'Users returned successfully!',
       payload: {
@@ -158,25 +158,25 @@ async function getUsersHandler(req, res, next) {
   }
 }
 
-// get single user by id
-async function getUserByIdHandler(req, res, next) {
+// GET A USER
+async function getUser(req, res, next) {
   try {
     const id = req.params.id;
     const options = { password: 0 };
     // call find with id services
     const user = await findWithId(User, id, options);
-    return successResponseHandler(res, {
+    return successResponse(res, {
       statusCode: 200,
       message: 'user returned successfully!',
-      payload: { user },
+      data: user,
     });
   } catch (error) {
     next(error);
   }
 }
 
-// update user by id
-async function updateUserByIdHandler(req, res, next) {
+// UPDATE A USER
+async function updateUser(req, res, next) {
   try {
     const userId = req.params.id;
 
@@ -228,7 +228,7 @@ async function updateUserByIdHandler(req, res, next) {
       throw createError(404, 'User does not exists with this ID!');
 
     // success response
-    return successResponseHandler(res, {
+    return successResponse(res, {
       statusCode: 201,
       message: 'user updated successfully!',
       payload: updateUser,
@@ -238,8 +238,8 @@ async function updateUserByIdHandler(req, res, next) {
   }
 }
 
-// delete user by id
-async function deleteUserByIdHandler(req, res, next) {
+// DELETE A USER
+async function deleteUser(req, res, next) {
   try {
     const id = req.params.id;
     const options = { password: 0 };
@@ -248,7 +248,7 @@ async function deleteUserByIdHandler(req, res, next) {
 
     await User.findByIdAndDelete({ _id: id, isAdmin: false });
 
-    return successResponseHandler(res, {
+    return successResponse(res, {
       statusCode: 200,
       message: 'user deleted successfully!',
     });
@@ -257,8 +257,8 @@ async function deleteUserByIdHandler(req, res, next) {
   }
 }
 
-// banned user by id
-async function bannedUserByIdHandler(req, res, next) {
+// BANNED A USER
+async function bannedUser(req, res, next) {
   try {
     const userId = req.params.id;
     // call find with id services
@@ -275,7 +275,7 @@ async function bannedUserByIdHandler(req, res, next) {
     if (!updateUser) throw createError(404, 'Ops! User is not banned!');
 
     // success response
-    return successResponseHandler(res, {
+    return successResponse(res, {
       statusCode: 201,
       message: 'user banned successfully!',
     });
@@ -284,8 +284,8 @@ async function bannedUserByIdHandler(req, res, next) {
   }
 }
 
-// unbanned user by id
-async function unbannedUserByIdHandler(req, res, next) {
+// UNBANNED A USER
+async function unbannedUser(req, res, next) {
   try {
     const userId = req.params.id;
     // call find with id services
@@ -302,7 +302,7 @@ async function unbannedUserByIdHandler(req, res, next) {
     if (!updateUser) throw createError(404, 'Ops! User is not unbanned!');
 
     // success response
-    return successResponseHandler(res, {
+    return successResponse(res, {
       statusCode: 201,
       message: 'user unbanned successfully!',
     });
@@ -311,8 +311,8 @@ async function unbannedUserByIdHandler(req, res, next) {
   }
 }
 
-// unbanned user by id
-async function updatePasswordHandler(req, res, next) {
+// UPDATE PASSWORD
+async function updatePassword(req, res, next) {
   try {
     const { oldPassword, newPassword } = req.body;
     const userId = req.params.id;
@@ -337,7 +337,7 @@ async function updatePasswordHandler(req, res, next) {
       throw createError(400, 'Something wrong! Password is not updated !');
 
     // success response
-    return successResponseHandler(res, {
+    return successResponse(res, {
       statusCode: 201,
       message: 'Password updated successfully!',
       payload: { updatedUser },
@@ -347,8 +347,8 @@ async function updatePasswordHandler(req, res, next) {
   }
 }
 
-// unbanned user by id
-async function forgetPasswordHandler(req, res, next) {
+// FORGET PASSWORD
+async function forgetPassword(req, res, next) {
   try {
     const { email } = req.body;
     // check user in the database
@@ -381,7 +381,7 @@ async function forgetPasswordHandler(req, res, next) {
     //   return next(createError(500, "Failed to send reset password email!!"));
     // }
 
-    return successResponseHandler(res, {
+    return successResponse(res, {
       statusCode: 201,
       message: `Please go to your ${email} to reset your password!`,
       payload: { token },
@@ -391,8 +391,8 @@ async function forgetPasswordHandler(req, res, next) {
   }
 }
 
-// unbanned user by id
-async function resetPasswordHandler(req, res, next) {
+// RESET PASSWORD
+async function resetPassword(req, res, next) {
   try {
     const { token, password } = req.body;
 
@@ -413,7 +413,7 @@ async function resetPasswordHandler(req, res, next) {
 
     if (!updatedUser) throw createError(400, 'Password reset failed !');
 
-    return successResponseHandler(res, {
+    return successResponse(res, {
       statusCode: 201,
       message: `Password reset successfully!`,
     });
@@ -423,17 +423,17 @@ async function resetPasswordHandler(req, res, next) {
 }
 
 export {
-  getUsersHandler,
-  getUserByIdHandler,
-  deleteUserByIdHandler,
-  processRegisterHandler,
-  activateUserAccountHandler,
-  updateUserByIdHandler,
-  bannedUserByIdHandler,
-  unbannedUserByIdHandler,
-  updatePasswordHandler,
-  forgetPasswordHandler,
-  resetPasswordHandler,
+  getAllUsers,
+  getUser,
+  deleteUser,
+  processRegister,
+  activateUserAccount,
+  updateUser,
+  bannedUser,
+  unbannedUser,
+  updatePassword,
+  forgetPassword,
+  resetPassword,
 };
 
 // TODO: For creating user we need to call 02 api from client site one is

@@ -1,10 +1,10 @@
 import express from 'express';
 
 import {
-  loginHandler,
-  logoutHandler,
-  refreshTokenHandler,
-  protectedRouteHandler,
+  loginController,
+  logoutController,
+  refreshToken,
+  protectedRoute,
 } from '../controllers/authController.js';
 import { isLoggedIn, isLoggedOut } from '../middlewares/auth.js';
 import { validationLoginInput } from '../validators/authValidation.js';
@@ -17,10 +17,10 @@ authRouter.post(
   validationLoginInput,
   runValidation,
   isLoggedOut,
-  loginHandler
+  loginController
 );
-authRouter.post('/logout', isLoggedIn, logoutHandler);
-authRouter.get('/refresh-token', refreshTokenHandler);
-authRouter.get('/protected', protectedRouteHandler);
+authRouter.post('/logout', isLoggedIn, logoutController);
+authRouter.get('/refresh-token', refreshToken);
+authRouter.get('/protected', protectedRoute);
 
 export { authRouter };

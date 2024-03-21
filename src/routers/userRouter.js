@@ -1,16 +1,16 @@
 import express from 'express';
 import {
-  deleteUserByIdHandler,
-  getUserByIdHandler,
-  getUsersHandler,
-  processRegisterHandler,
-  activateUserAccountHandler,
-  updateUserByIdHandler,
-  bannedUserByIdHandler,
-  unbannedUserByIdHandler,
-  updatePasswordHandler,
-  forgetPasswordHandler,
-  resetPasswordHandler,
+  deleteUser,
+  getUser,
+  getAllUsers,
+  processRegister,
+  activateUserAccount,
+  updateUser,
+  bannedUser,
+  unbannedUser,
+  updatePassword,
+  forgetPassword,
+  resetPassword,
 } from '../controllers/userController.js';
 import { upload } from '../middlewares/uploadFile.js';
 import {
@@ -25,43 +25,39 @@ const userRouter = express.Router();
 
 // api/users
 
-userRouter.post(
-  '/process-register',
-  upload.single('image'),
-  processRegisterHandler
-);
-// userRouter.post("/process-register", upload.single("image"), isLoggedOut, validateUserRegistration, runValidation, processRegisterHandler);
+userRouter.post('/process-register', upload.single('image'), processRegister);
+// userRouter.post("/process-register", upload.single("image"), isLoggedOut, validateUserRegistration, runValidation, processRegister);
 
-userRouter.post('/activate', isLoggedOut, activateUserAccountHandler);
+userRouter.post('/activate', isLoggedOut, activateUserAccount);
 
-userRouter.get('/', isLoggedIn, getUsersHandler);
+userRouter.get('/', isLoggedIn, getAllUsers);
 
 // Note: ([0-9a-fA-F]{24}) optional but good to use
-userRouter.get('/:id([0-9a-fA-F]{24})', isLoggedIn, getUserByIdHandler);
+userRouter.get('/:id([0-9a-fA-F]{24})', isLoggedIn, getUser);
 
-userRouter.delete('/:id([0-9a-fA-F]{24})', isLoggedIn, deleteUserByIdHandler);
+userRouter.delete('/:id([0-9a-fA-F]{24})', isLoggedIn, deleteUser);
 
 userRouter.put(
   '/reset-password',
   validationResetPasswordInput,
   runValidation,
-  resetPasswordHandler
+  resetPassword
 );
 
 userRouter.put(
   '/:id([0-9a-fA-F]{24})',
   upload.single('image'),
   isLoggedIn,
-  updateUserByIdHandler
+  updateUser
 );
 
-userRouter.put('/banned-user/:id', isLoggedIn, isAdmin, bannedUserByIdHandler);
+userRouter.put('/banned-user/:id', isLoggedIn, isAdmin, bannedUser);
 
 userRouter.put(
   '/unbanned-user/:id([0-9a-fA-F]{24})',
   isLoggedIn,
   isAdmin,
-  unbannedUserByIdHandler
+  unbannedUser
 );
 
 userRouter.put(
@@ -69,21 +65,21 @@ userRouter.put(
   validationUpdatePasswordInput,
   runValidation,
   isLoggedIn,
-  updatePasswordHandler
+  updatePassword
 );
 
 userRouter.post(
   '/forget-password',
   validationForgetPasswordInput,
   runValidation,
-  forgetPasswordHandler
+  forgetPassword
 );
 
 userRouter.put(
   '/reset-password',
   validationResetPasswordInput,
   runValidation,
-  resetPasswordHandler
+  resetPassword
 );
 
 export { userRouter };

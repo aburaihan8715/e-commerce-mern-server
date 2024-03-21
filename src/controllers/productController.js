@@ -1,5 +1,5 @@
 import createError from 'http-errors';
-import { successResponseHandler } from '../utils/responseHandler.js';
+import { successResponse } from '../utils/responseHandler.js';
 import {
   createProduct,
   deleteProductBySlug,
@@ -36,7 +36,7 @@ async function createProductHandler(req, res, next) {
     const product = await createProduct(productData);
 
     // success response
-    return successResponseHandler(res, {
+    return successResponse(res, {
       statusCode: 201,
       message: `Product created successfully!`,
       payload: product,
@@ -65,7 +65,7 @@ async function getProductsHandler(req, res, next) {
     const productsData = await getProducts(page, limit, filter);
 
     // success response
-    return successResponseHandler(res, {
+    return successResponse(res, {
       statusCode: 200,
       message: `Products returned successfully!`,
       payload: {
@@ -91,7 +91,7 @@ async function getProductBySlugHandler(req, res, next) {
     const { slug } = req.params;
     const product = await getProductBySlug(slug);
     // success response
-    return successResponseHandler(res, {
+    return successResponse(res, {
       statusCode: 200,
       message: `Product returned successfully!`,
       payload: { product },
@@ -107,7 +107,7 @@ async function deleteProductBySlugHandler(req, res, next) {
     const { slug } = req.params;
     await deleteProductBySlug(slug);
     // success response
-    return successResponseHandler(res, {
+    return successResponse(res, {
       statusCode: 200,
       message: `Product deleted successfully!`,
     });
@@ -150,7 +150,7 @@ async function updateProductBySlugHandler(req, res, next) {
       updateOptions
     );
     // success response
-    return successResponseHandler(res, {
+    return successResponse(res, {
       statusCode: 201,
       message: 'Product updated successfully!',
       payload: updatedProduct,

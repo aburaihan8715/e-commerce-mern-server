@@ -1,6 +1,6 @@
 import createError from 'http-errors';
 import User from '../models/userModel.js';
-import { successResponseHandler } from '../utils/responseHandler.js';
+import { successResponse } from '../utils/responseHandler.js';
 import bcrypt from 'bcryptjs';
 import { createJWT } from '../utils/createJWT.js';
 import {
@@ -14,7 +14,7 @@ import {
 } from '../utils/cookie.js';
 
 // login handler
-async function loginHandler(req, res, next) {
+async function loginController(req, res, next) {
   try {
     // email, password from req.body
     const { email, password } = req.body;
@@ -50,7 +50,7 @@ async function loginHandler(req, res, next) {
     const userWithoutPassword = user.toObject(); //another instance of user
     delete userWithoutPassword.password;
     // success response
-    return successResponseHandler(res, {
+    return successResponse(res, {
       statusCode: 201,
       message: 'user logged in successfully!',
       payload: { userWithoutPassword },
@@ -61,13 +61,13 @@ async function loginHandler(req, res, next) {
 }
 
 // logout handler
-async function logoutHandler(req, res, next) {
+async function logoutController(req, res, next) {
   try {
     // remove access token and refresh token from the cookie
     res.clearCookie('accessToken');
     res.clearCookie('refreshToken');
     // success response
-    return successResponseHandler(res, {
+    return successResponse(res, {
       statusCode: 201,
       message: 'user logged out successfully!',
       payload: {},
@@ -78,7 +78,7 @@ async function logoutHandler(req, res, next) {
 }
 
 // refresh token handler
-async function refreshTokenHandler(req, res, next) {
+async function refreshToken(req, res, next) {
   try {
     const oldRefreshToken = req.cookies.refreshToken;
 
@@ -100,7 +100,7 @@ async function refreshTokenHandler(req, res, next) {
     // set access token in the cookie
     setAccessTokenCookie(res, accessToken);
 
-    return successResponseHandler(res, {
+    return successResponse(res, {
       statusCode: 201,
       message: 'New access token is generated!',
       payload: {},
@@ -111,7 +111,7 @@ async function refreshTokenHandler(req, res, next) {
 }
 
 // protected handler
-async function protectedRouteHandler(req, res, next) {
+async function protectedRoute(req, res, next) {
   try {
     const accessToken = req.cookies.accessToken;
 
@@ -121,7 +121,7 @@ async function protectedRouteHandler(req, res, next) {
     if (!decodedToken)
       throw createError(401, 'Invalid access token. Please login again!');
 
-    return successResponseHandler(res, {
+    return successResponse(res, {
       statusCode: 201,
       message: 'Protected resources accessed successfully!',
       payload: {},
@@ -131,9 +131,4 @@ async function protectedRouteHandler(req, res, next) {
   }
 }
 
-export {
-  loginHandler,
-  logoutHandler,
-  refreshTokenHandler,
-  protectedRouteHandler,
-};
+export { loginController, logoutController, refreshToken, protectedRoute };

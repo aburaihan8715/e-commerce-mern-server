@@ -1,5 +1,5 @@
 // error response handler
-const errorResponseHandler = (
+const errorResponse = (
   res,
   { statusCode = 500, message = 'Internal server error' }
 ) => {
@@ -10,7 +10,7 @@ const errorResponseHandler = (
 };
 
 // success response handler
-const successResponseHandler = (
+const successResponse = (
   res,
   { statusCode = 200, message = 'Success!!', data = null }
 ) => {
@@ -21,4 +21,4 @@ const successResponseHandler = (
   });
 };
 
-export { errorResponseHandler, successResponseHandler };
+export { errorResponse, successResponse };

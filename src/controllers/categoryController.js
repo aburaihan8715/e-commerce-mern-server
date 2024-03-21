@@ -1,5 +1,5 @@
 import createError from 'http-errors';
-import { successResponseHandler } from '../utils/responseHandler.js';
+import { successResponse } from '../utils/responseHandler.js';
 import {
   createCategory,
   deleteCategory,
@@ -14,7 +14,7 @@ async function createCategoryHandler(req, res, next) {
     const { name } = req.body;
     // create new category
     await createCategory(name);
-    return successResponseHandler(res, {
+    return successResponse(res, {
       statusCode: 201,
       message: `Category created successfully!`,
     });
@@ -27,7 +27,7 @@ async function createCategoryHandler(req, res, next) {
 async function getCategoriesHandler(req, res, next) {
   try {
     const categories = await getCategories();
-    return successResponseHandler(res, {
+    return successResponse(res, {
       statusCode: 200,
       message: `Categories got successfully!`,
       payload: categories,
@@ -45,7 +45,7 @@ async function getCategoryHandler(req, res, next) {
     const category = await getCategory(slug);
     if (!category) throw createError(404, 'Category not found with this slug!');
 
-    return successResponseHandler(res, {
+    return successResponse(res, {
       statusCode: 201,
       message: `Category got successfully!`,
       payload: category,
@@ -65,7 +65,7 @@ async function updateCategoryHandler(req, res, next) {
     if (!updatedCategory)
       throw createError(404, 'Category not found with this slug!');
 
-    return successResponseHandler(res, {
+    return successResponse(res, {
       statusCode: 201,
       message: `Category updated successfully!`,
       payload: updatedCategory,
@@ -80,7 +80,7 @@ async function deleteCategoryHandler(req, res, next) {
   try {
     const { slug } = req.params;
     await deleteCategory(slug);
-    return successResponseHandler(res, {
+    return successResponse(res, {
       statusCode: 201,
       message: `Category deleted successfully!`,
     });

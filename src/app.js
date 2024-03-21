@@ -7,7 +7,7 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 
 import { userRouter } from './routers/userRouter.js';
-import { errorResponseHandler } from './utils/responseHandler.js';
+import { errorResponse } from './utils/responseHandler.js';
 import { authRouter } from './routers/authRouter.js';
 import { categoryRouter } from './routers/categoryRouter.js';
 import { seedRouter } from './routers/seedRouter.js';
@@ -44,7 +44,7 @@ app.use((req, res, next) => {
 
 // server error route
 app.use((err, req, res, next) => {
-  return errorResponseHandler(res, {
+  return errorResponse(res, {
     statusCode: err.status,
     message: err.message,
   });
